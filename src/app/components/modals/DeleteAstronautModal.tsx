@@ -6,6 +6,8 @@ import useDeleteAstronaut from "@/app/hooks/useDeleteAstronaut";
 import { errorToast, successToast } from "@/app/utils/toasts";
 import React, { FC, useEffect } from "react";
 import PrimaryButton from "../buttons/PrimaryButton";
+import SecondaryButton from "../buttons/SecondaryButton";
+import ThirdButtonCloseX from "../buttons/ThirdButtonCloseX";
 
 type Props = {
     astronautId: string | undefined,
@@ -46,29 +48,16 @@ const DeleteAstronautModal: FC<Props> = ({ astronautId, isOpen, onClose, onDelet
                                     <h3 className="text-2xl font-semibold">
                                         Delete Astronaut
                                     </h3>
-                                    <button
-                                        className="p-1 ml-auto border-0 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                                        onClick={onClose}
-                                    >
-                                        <span className="text-indigo-500 h-6 w-6 text-2xl block outline-none focus:outline-none">
-                                            ×
-                                        </span>
-                                    </button>
+                                    <ThirdButtonCloseX title="×" onClick={onClose} type="button" />
                                 </div>
                                 {/*body*/}
                                 <div className="relative p-6 flex-auto text-lg">
                                     {isDeleteLoading && <LoaderCircle />}
-                                    {(!isDeleteLoading && !error && !success) && <p>Are you sure you want to delete this astronaut?</p>}
+                                    {!isDeleteLoading && <p>Are you sure you want to delete this astronaut?</p>}
                                 </div>
                                 {/*footer*/}
                                 <div className="flex items-center justify-end p-6 border-t border-solid border-indigo-500 rounded-b">
-                                    <button
-                                        className="text-indigo-500 hover:text-white hover:bg-indigo-500 border border-indigo-500 rounded-2xl p-2 outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                                        type="button"
-                                        onClick={onClose}
-                                    >
-                                        Close
-                                    </button>
+                                    <SecondaryButton title="Close" onClick={onClose} type="button" />
                                     {(!success && !error && !isDeleteLoading) &&
                                         (<PrimaryButton
                                             title="Delete"

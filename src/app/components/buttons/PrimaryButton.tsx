@@ -1,4 +1,5 @@
-import React from 'react';
+"use client";
+import React, { FC } from 'react';
 
 type Props = {
     title: string,
@@ -8,7 +9,7 @@ type Props = {
     type: "button" | "submit" | "reset"
 };
 
-const PrimaryButton: React.FC<Props> = ({ title, onClick, onClickHandleAstronautId, astronautId, type }) => {
+const PrimaryButton: FC<Props> = ({ title, onClick, onClickHandleAstronautId, astronautId, type }) => {
 
     const handleButtonClick = () => {
         if (onClick) {

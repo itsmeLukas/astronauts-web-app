@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { BASE_URL_ASTRONAUTS } from "@/apiConfig";
-import { FormEditAnimalData } from "../components/FormEditAnimal";
+import { FormAstronautData } from "../components/forms/AstronautFormTemplate";
 
 const useEditAstronaut = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -10,15 +10,22 @@ const useEditAstronaut = () => {
     const [success, setSuccess] = useState(false);
 
 
-    const fetchData = async (formData: FormEditAnimalData, astronautId: string) => {
+    const fetchData = async (formData: FormAstronautData, astronautId: string | undefined) => {
         setIsLoading(true);
+        const newFormData = {
+            ...formData,
+            id: astronautId
+        };
         const response = await fetch(`${BASE_URL_ASTRONAUTS}/${astronautId}`,
             {
                 method: 'PATCH',
-                body: JSON.stringify(formData)
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newFormData)
             }
         );
-        if (response.status !== 200) {
+        if (response.status !== 204) {
             setIsLoading(false);
             setError(true);
             return;

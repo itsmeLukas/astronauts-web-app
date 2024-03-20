@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { BASE_URL_ASTRONAUTS } from "@/apiConfig";
-import { FormAstronautData } from "../components/FormNewAstronaut";
+import { FormAstronautData } from "../components/forms/AstronautFormTemplate";
 
 const useCreateNewAstronaut = () => {
     const [isLoading, setIsLoading] = useState(false);

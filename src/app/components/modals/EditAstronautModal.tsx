@@ -3,22 +3,24 @@
 import React, { FC, useEffect, useState } from "react";
 import { errorToast, successToast } from "@/app/utils/toasts";
 import BigModalTemplate from "./BigModalTemplate";
-import FormNewAstronaut from "../forms/FormNewAstronaut";
+import { Astronaut } from "@/app/hooks/useAstronauts";
+import FormEditAstronaut from "../forms/FormEditAstronaut";
 
 type Props = {
+    astronaut: Astronaut | undefined,
     isOpen: boolean,
     onClose: () => void,
-    onCreated: () => void
+    onEdited: () => void
 };
 
-const AddNewAstronautModal: FC<Props> = ({ isOpen, onClose, onCreated }) => {
+const EditAstronautModal: FC<Props> = ({ astronaut, isOpen, onClose, onEdited }) => {
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState(false);
 
     useEffect(() => {
         if (success) {
-            successToast("Astronaut created");
-            onCreated();
+            successToast("Astronaut edited");
+            onEdited();
             onClose();
             return;
         }
@@ -33,14 +35,15 @@ const AddNewAstronautModal: FC<Props> = ({ isOpen, onClose, onCreated }) => {
         <>
             {isOpen ? (
                 <BigModalTemplate
-                    modalTitle="Create new astronaut"
+                    modalTitle="Edit astronaut"
                     onSuccess={setSuccess}
                     onError={setError}
                     onClose={onClose}
-                    children={<FormNewAstronaut onSuccess={setSuccess} onError={setError} />} />
+                    children={<FormEditAstronaut astronaut={astronaut} onSuccess={setSuccess} onError={setError} />}
+                />
             ) : null}
         </>
     );
 }
 
-export default AddNewAstronautModal;
+export default EditAstronautModal;

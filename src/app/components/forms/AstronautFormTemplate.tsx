@@ -1,26 +1,47 @@
-import React from 'react';
-import { useForm, UseFormRegister, UseFormRegisterReturn } from 'react-hook-form';
+"use client"
+import React, { FC, use, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import PrimaryButton from '../buttons/PrimaryButton';
-import { FormAstronautData } from '../FormNewAstronaut';
+import { Astronaut } from '@/app/hooks/useAstronauts';
+import { formatDateToYYYYMMDD } from '@/app/utils/stringUtils';
+
+export type FormAstronautData = {
+    id?: string,
+    name: string,
+    surname: string,
+    birthDate: string,
+    superpower: string
+}
 
 type Props = {
-    fetchData: (formData: FormAstronautData) => void
+    fetchData: (formData: FormAstronautData, astronautId?: string | undefined) => void,
+    buttonText: string,
+    astronaut?: Astronaut
 };
 
 const regex = /^[a-zA-ZáÁčČďĎěĚéÉíÍňŇóÓřŘšŠťŤúÚůŮýÝžŽ -.]+$/;
 
-const AstronautForm: React.FC<Props> = ({ fetchData }) => {
-    const { register, handleSubmit, formState: { errors } } = useForm<FormAstronautData>();
+const AstronautFormTemplate: FC<Props> = ({ fetchData, buttonText, astronaut }) => {
+    const { register, setValue, handleSubmit, formState: { errors } } = useForm<FormAstronautData>();
+
+    useEffect(() => {
+        if (astronaut) {
+            setValue('name', astronaut.name);
+            setValue('surname', astronaut.surname);
+            setValue('birthDate', formatDateToYYYYMMDD(astronaut.birthDate));
+            setValue('superpower', astronaut.superpower);
+        }
+    }, [astronaut]);
 
     return (
-        <form onSubmit={handleSubmit((data) => fetchData(data))} className="space-y-4">
+        <form onSubmit={handleSubmit((data) => fetchData(data, astronaut?.id))} className="space-y-4">
             <div>
                 <label htmlFor="name" className="text-lg text-gray-700">Name</label>
                 <input id="name" {...register('name',
                     {
                         required: true,
                         maxLength: 100,
-                        pattern: regex
+                        pattern: regex,
                     })}
                     className={`w-full p-2 pr-10 border ${!errors.name ? "border-indigo-500" : "border-red-500"} rounded`} />
 
@@ -60,9 +81,9 @@ const AstronautForm: React.FC<Props> = ({ fetchData }) => {
 
                 {errors.superpower && <span className="text-red-500 text-xs">This field is required</span>}
             </div>
-            <PrimaryButton type='submit' title="Create astronaut" />
+            <PrimaryButton type='submit' title={buttonText} />
         </form>
     );
 };
 
-export default AstronautForm;
+export default AstronautFormTemplate;

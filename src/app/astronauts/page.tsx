@@ -11,14 +11,25 @@ import DeleteAstronautModal from '../components/modals/DeleteAstronautModal';
 import ContainerMain from '../components/containers/ContainerMain';
 import ContainerSearchAndButton from '../components/containers/ContainerSearchAndButton';
 import PrimaryButton from '../components/buttons/PrimaryButton';
-//import EditAnimalModal from '../components/modals/EditAnimalModal';
+import SecondaryButton from '../components/buttons/SecondaryButton';
+import { formatDateFromAPI } from "@/app/utils/stringUtils";
+import EditAstronautModal from '../components/modals/EditAstronautModal';
+
+const theadTitles = [
+    "Name",
+    "Surname",
+    "Birth date",
+    "Superpower",
+    "Delete",
+    "Edit"
+]
 
 const Users = () => {
     const { astronauts, isLoadingAstronauts, errorAstronauts, refresh } = useAstronauts();
     const [currentAstronaut, setCurrentAstronaut] = useState<Astronaut | undefined>(undefined);
     const [searchTerm, setSearchTerm] = useState('');
     const [isOpenAddAstronautModal, setIsOpenAddAstronautModal] = useState(false);
-    // const [isOpenEditAnimalModal, setIsOpenEditAnimalModal] = useState(false);
+    const [isOpenEditAstronautModal, setIsOpenEditAstronautModal] = useState(false);
     const [isOpenDeleteAstronautModal, setIsOpenDeleteAstronautModal] = useState(false);
 
     const filteredAstronauts = astronauts.filter((astronaut) =>
@@ -37,23 +48,21 @@ const Users = () => {
         setIsOpenAddAstronautModal(false);
     };
 
-    // const closeEditAnimalModal = () => {
-    //     setIsOpenEditAnimalModal(false);
-    // };
+    const closeEditAstronautModal = () => {
+        setIsOpenEditAstronautModal(false);
+    };
 
     const closeDeleteAstronautModal = () => {
         setIsOpenDeleteAstronautModal(false);
     }
 
-    // const handleEditClick = (animalId: string) => {
-    //     //console.log(userId);
-    //     const animal: Animal | undefined = animals.find((animal) => animal.id === animalId);
-    //     setCurrentAnimal(animal);
-    //     setIsOpenEditAnimalModal(true);
-    // };
+    const handleEditClick = (astronautId: string) => {
+        const astronaut: Astronaut | undefined = astronauts.find((astronaut) => astronaut.id === astronautId);
+        setCurrentAstronaut(astronaut);
+        setIsOpenEditAstronautModal(true);
+    };
 
     const handleDeleteClick = (astronautId: string) => {
-        console.log("handleDeleteClick", astronautId);
         const astronaut: Astronaut | undefined = astronauts.find((astronaut) => astronaut.id === astronautId);
         setCurrentAstronaut(astronaut);
         setIsOpenDeleteAstronautModal(true);
@@ -79,47 +88,21 @@ const Users = () => {
                         <table className="min-w-full divide-y divide-gray-200">
                             <thead className="bg-gray-200">
                                 <tr>
-                                    <th
-                                        scope="col"
-                                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                                    >
-                                        Name
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                                    >
-                                        Surname
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                                    >
-                                        Birth date
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                                    >
-                                        Superpower
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                                    >
-                                        Delete
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                                    >
-                                        Edit
-                                    </th>
+                                    {theadTitles.map((title) => {
+                                        return (
+                                            <th key={title}
+                                                scope="col"
+                                                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                            >
+                                                {title}
+                                            </th>
+                                        )
+                                    })}
                                 </tr>
                             </thead>
-                            <tbody className="bg-white divide-y divide-gray-100">
+                            <tbody className="bg-white  divide-y divide-gray-100">
                                 {filteredAstronauts.map((astronaut) => (
-                                    <tr key={astronaut.id} className="hover:bg-gray-100 transition-colors duration-200">
+                                    <tr key={astronaut.id} className="hover:bg-gray-200">
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="text-sm text-gray-900">{astronaut.name}</div>
                                         </td>
@@ -144,19 +127,20 @@ const Users = () => {
                                             </button>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <button
-                                                //id={animal.id}
-                                                //onClick={(event) => handleEditClick(event.currentTarget.id)}
+                                            {/* <button
+                                                id={astronaut.id}
+                                                onClick={(event) => handleEditClick(event.currentTarget.id)}
                                                 className="text-indigo-500 hover:text-white hover:bg-indigo-500 border border-indigo-500 rounded-xl py-2 px-4">
                                                 Edit
-                                            </button>
+                                            </button> */}
+                                            <SecondaryButton title="Edit" onClick={() => handleEditClick(astronaut.id)} type="button" />
                                         </td>
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
                         {astronauts.length === 0 && <div className='mt-24'><NoDataMessage message={'No astronauts found'} /></div>}
-                        {/* <EditAnimalModal animal={currentAnimal} isOpen={isOpenEditAnimalModal} onClose={closeEditAnimalModal} onEdited={refresh} /> */}
+                        <EditAstronautModal astronaut={currentAstronaut} isOpen={isOpenEditAstronautModal} onClose={closeEditAstronautModal} onEdited={refresh} />
                         <DeleteAstronautModal astronautId={currentAstronaut?.id} isOpen={isOpenDeleteAstronautModal} onClose={closeDeleteAstronautModal} onDeleted={refresh} />
                     </div>
                 </div>
@@ -166,12 +150,3 @@ const Users = () => {
 };
 
 export default Users;
-
-function formatDateFromAPI(dateFromAPI: string): string {
-    const date = new Date(dateFromAPI);
-    const day = date.getDate();
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear();
-    const formattedDate = (day < 10 ? '0' : '') + day + '.' + (month < 10 ? '0' : '') + month + '.' + year;
-    return formattedDate;
-}
