@@ -14,7 +14,7 @@ export default function Home() {
             </div>
             <span className="text-lg font-semibold mt-5 mb-2 text-left">App's Frontend</span>
             <div className="text-lg text-left">
-              Next.js 14 with TailwindCSS hosted on Vercel.
+              Next.js 14 with TypeScript and TailwindCSS hosted on Vercel.
             </div>
           </div>
         </div>
