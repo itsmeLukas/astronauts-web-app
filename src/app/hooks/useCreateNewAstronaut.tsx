@@ -10,7 +10,6 @@ const useCreateNewAstronaut = () => {
     const [success, setSuccess] = useState(false);
 
     const fetchData = async (formData: FormAstronautData) => {
-        console.log("formData", formData);
         setIsLoading(true);
         const response = await fetch(BASE_URL_ASTRONAUTS,
             {
