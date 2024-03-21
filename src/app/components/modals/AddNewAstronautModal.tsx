@@ -37,7 +37,9 @@ const AddNewAstronautModal: FC<Props> = ({ isOpen, onClose, onCreated }) => {
                     onSuccess={setSuccess}
                     onError={setError}
                     onClose={onClose}
-                    children={<FormNewAstronaut onSuccess={setSuccess} onError={setError} />} />
+                >
+                    {<FormNewAstronaut onSuccess={setSuccess} onError={setError} />}
+                </BigModalTemplate>
             ) : null}
         </>
     );

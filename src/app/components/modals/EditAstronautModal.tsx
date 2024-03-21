@@ -39,8 +39,9 @@ const EditAstronautModal: FC<Props> = ({ astronaut, isOpen, onClose, onEdited })
                     onSuccess={setSuccess}
                     onError={setError}
                     onClose={onClose}
-                    children={<FormEditAstronaut astronaut={astronaut} onSuccess={setSuccess} onError={setError} />}
-                />
+                >
+                    {<FormEditAstronaut astronaut={astronaut} onSuccess={setSuccess} onError={setError} />}
+                </BigModalTemplate>
             ) : null}
         </>
     );

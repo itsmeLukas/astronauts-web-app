@@ -8,11 +8,11 @@ export default function Home() {
         <div className='border border-indigo-500 rounded-lg m-4 p-4 md:p-8 lg:p-20 shadow-lg'>
           <span className="text-xl font-bold">Information about the project</span>
           <div className='flex flex-col justify-start'>
-            <span className="text-lg font-semibold mt-5 mb-2 text-left">App's Backend</span>
+            <span className="text-lg font-semibold mt-5 mb-2 text-left">App&apos;s Backend</span>
             <div className="text-lg text-left">
               ASP.NET Core Web API (.NET 8) with Entity Framework Core hosted on Azure with Azure SQL Database.
             </div>
-            <span className="text-lg font-semibold mt-5 mb-2 text-left">App's Frontend</span>
+            <span className="text-lg font-semibold mt-5 mb-2 text-left">App&apos;s Frontend</span>
             <div className="text-lg text-left">
               Next.js 14 with TypeScript and TailwindCSS hosted on Vercel.
             </div>
