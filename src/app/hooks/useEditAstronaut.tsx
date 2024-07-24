@@ -18,7 +18,7 @@ const useEditAstronaut = () => {
         };
         const response = await fetch(`${BASE_URL_ASTRONAUTS}/${astronautId}`,
             {
-                method: 'PATCH',
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
